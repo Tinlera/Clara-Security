@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ╔══════════════════════════════════════════════════════════════════╗ -->
+    <!-- ║              CLARA Security - Cyberpunk Color Palette             ║ -->
+    <!-- ║                      Matrix / Hacker Aesthetic                    ║ -->
+    <!-- ╚══════════════════════════════════════════════════════════════════╝ -->
+    
+    <!-- Neon Colors -->
+    <color name="neon_green">#FF00FF41</color>
+    <color name="neon_green_dark">#FF00CC33</color>
+    <color name="neon_green_light">#FF39FF14</color>
+    <color name="neon_cyan">#FF00FFFF</color>
+    <color name="neon_purple">#FFBF00FF</color>
+    <color name="neon_blue">#FF00D4FF</color>
+    <color name="neon_pink">#FFFF00FF</color>
+    
+    <!-- Dark Backgrounds -->
+    <color name="matrix_black">#FF000000</color>
+    <color name="matrix_dark_green">#FF001100</color>
+    <color name="matrix_gray">#FF0D0D0D</color>
+    <color name="matrix_gray_light">#FF1A1A1A</color>
+    <color name="matrix_gray_medium">#FF262626</color>
+    
+    <!-- Status Colors -->
+    <color name="cyber_success">#FF00FF41</color>
+    <color name="cyber_warning">#FFFFB800</color>
+    <color name="cyber_danger">#FFFF0040</color>
+    <color name="cyber_info">#FF00D4FF</color>
+    
+    <!-- Trust Engine Colors -->
+    <color name="trust_high">#FF00FF41</color>
+    <color name="trust_normal">#FF00D4FF</color>
+    <color name="trust_suspicious">#FFFFB800</color>
+    <color name="trust_quarantine">#FFFF0040</color>
+    
+    <!-- Legacy Compatibility -->
+    <color name="clara_primary">#FF00FF41</color>
+    <color name="clara_secondary">#FF00FFFF</color>
+    <color name="clara_tertiary">#FFBF00FF</color>
+    <color name="clara_error">#FFFF0040</color>
+    <color name="clara_success">#FF00FF41</color>
+    <color name="clara_warning">#FFFFB800</color>
+    
+    <!-- Splash Screen -->
+    <color name="splash_background">#FF000000</color>
+    <color name="splash_icon_background">#FF001100</color>
+</resources>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CLARA Security</string>
+    <string name="app_description">AI-Powered Security Suite</string>
+    
+    <!-- Dashboard -->
+    <string name="protection_status">Korumalı</string>
+    <string name="at_risk">Risk Altında</string>
+    <string name="no_threats">Hiçbir tehdit tespit edilmedi</string>
+    <string name="start_scan">Tarama Başlat</string>
+    <string name="refresh_status">Durumu Yenile</string>
+    
+    <!-- Navigation -->
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_threats">Tehditler</string>
+    <string name="nav_protection">Koruma</string>
+    <string name="nav_settings">Ayarlar</string>
+    
+    <!-- Threats -->
+    <string name="no_threats_found">Tehdit Bulunamadı</string>
+    <string name="system_safe">Sisteminiz güvende görünüyor</string>
+    <string name="filter_all">Tümü</string>
+    <string name="filter_critical">Kritik</string>
+    <string name="filter_high">Yüksek</string>
+    <string name="filter_medium">Orta</string>
+    
+    <!-- Threat Types -->
+    <string name="threat_phishing_sms">SMS Phishing</string>
+    <string name="threat_phishing_url">Zararlı URL</string>
+    <string name="threat_malware_file">Zararlı Dosya</string>
+    <string name="threat_suspicious_app">Şüpheli Uygulama</string>
+    <string name="threat_network_attack">Ağ Saldırısı</string>
+    <string name="threat_keylogger">Keylogger</string>
+    <string name="threat_root_detection">Root Algılandı</string>
+    <string name="threat_permission_abuse">İzin İstismarı</string>
+    
+    <!-- Protection -->
+    <string name="security_modules">Güvenlik Modülleri</string>
+    <string name="privacy_modules">Gizlilik Modülleri</string>
+    <string name="quick_actions">Hızlı İşlemler</string>
+    
+    <!-- Settings -->
+    <string name="general">Genel</string>
+    <string name="scanning">Tarama</string>
+    <string name="about">Hakkında</string>
+    <string name="advanced">Gelişmiş</string>
+    <string name="version">Versiyon</string>
+    <string name="module_type">Modül Tipi</string>
+    <string name="daemon_version">Daemon Versiyonu</string>
+</resources>

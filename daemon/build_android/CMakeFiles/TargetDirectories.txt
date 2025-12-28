@@ -1,0 +1,12 @@
+/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/clara_shared.dir
+/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/clara_orchestrator.dir
+/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/clara_security_core.dir
+/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/clara_privacy_core.dir
+/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/clara_app_manager.dir
+/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/clara_cli.dir
+/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/edit_cache.dir
+/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/rebuild_cache.dir
+/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/list_install_components.dir
+/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/install.dir
+/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/install/local.dir
+/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/install/strip.dir

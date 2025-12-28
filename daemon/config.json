@@ -1,0 +1,95 @@
+{
+    "version": "0.1.0",
+    "modules": {
+        "sms_monitor": {
+            "enabled": true,
+            "check_interval_ms": 1000,
+            "ai_analysis": true,
+            "auto_block_spam": false,
+            "notify_on_suspicious": true,
+            "protected_keywords": ["OTP", "doğrulama", "verification", "şifre", "password"]
+        },
+        "file_monitor": {
+            "enabled": true,
+            "watched_paths": [
+                "/sdcard/Download",
+                "/sdcard/WhatsApp/Media",
+                "/sdcard/Telegram",
+                "/data/local/tmp"
+            ],
+            "scan_extensions": [".apk", ".dex", ".so", ".jar", ".zip"],
+            "auto_quarantine": false,
+            "hash_check": true,
+            "ai_analysis": true
+        },
+        "network_monitor": {
+            "enabled": true,
+            "dns_logging": true,
+            "anomaly_detection": true,
+            "blocked_domains_url": "https://raw.githubusercontent.com/clara-security/blocklist/main/domains.txt",
+            "update_interval_hours": 24
+        },
+        "app_monitor": {
+            "enabled": true,
+            "permission_tracking": true,
+            "behavior_analysis": true,
+            "background_limit_check": true
+        },
+        "threat_response": {
+            "autonomous_mode": "medium",
+            "risk_thresholds": {
+                "low": 0.3,
+                "medium": 0.6,
+                "high": 0.8,
+                "critical": 0.95
+            },
+            "actions": {
+                "low": ["log"],
+                "medium": ["log", "notify"],
+                "high": ["log", "notify", "quarantine"],
+                "critical": ["log", "notify", "quarantine", "block"]
+            }
+        }
+    },
+    "ai": {
+        "inference_threads": 2,
+        "use_gpu": false,
+        "use_nnapi": true,
+        "models": {
+            "sms_phishing": {
+                "path": "/data/clara/cache/sms_detector.tflite",
+                "version": "1.0.0"
+            },
+            "malware_classifier": {
+                "path": "/data/clara/cache/malware_classifier.tflite",
+                "version": "1.0.0"
+            },
+            "network_anomaly": {
+                "path": "/data/clara/cache/network_anomaly.tflite",
+                "version": "1.0.0"
+            }
+        }
+    },
+    "logging": {
+        "level": "info",
+        "max_file_size_mb": 10,
+        "max_files": 7,
+        "log_path": "/data/clara/logs"
+    },
+    "database": {
+        "path": "/data/clara/database",
+        "max_events": 10000,
+        "retention_days": 30
+    },
+    "notifications": {
+        "enabled": true,
+        "channel_id": "clara_security",
+        "priority": "high",
+        "sound": true,
+        "vibration": true
+    },
+    "ui": {
+        "dashboard_refresh_ms": 5000,
+        "theme": "dark"
+    }
+}

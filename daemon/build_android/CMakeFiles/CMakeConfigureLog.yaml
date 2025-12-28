@@ -1,0 +1,409 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineSystem.cmake:200 (message)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      The target system is: Android - 1 - aarch64
+      The host system is: Linux - 6.17.10+kali-amd64 - x86_64
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler: /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ 
+      Build flags: -g;-DANDROID;-fdata-sections;-ffunction-sections;-funwind-tables;-fstack-protector-strong;-no-canonical-prefixes;-D_FORTIFY_SOURCE=2;-Wformat;-Werror=format-security
+      Id flags: -c;--target=aarch64-none-linux-android35 
+      
+      The output was:
+      0
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CMakeCXXCompilerId.o"
+      
+      The CXX compiler identification is Clang, found in:
+        /home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/3.31.6/CompilerIdCXX/CMakeCXXCompilerId.o
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:74 (try_compile)"
+      - "/usr/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    checks:
+      - "Detecting CXX compiler ABI info"
+    directories:
+      source: "/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-f7ILxj"
+      binary: "/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-f7ILxj"
+    cmakeVariables:
+      ANDROID_ABI: "arm64-v8a"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-35"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "aarch64-none-linux-android35"
+      CMAKE_CXX_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat  "
+      CMAKE_CXX_FLAGS_DEBUG: "-fno-limit-debug-info "
+      CMAKE_CXX_SCAN_FOR_MODULES: "OFF"
+      CMAKE_C_COMPILER_TARGET: "aarch64-none-linux-android35"
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot"
+    buildResult:
+      variable: "CMAKE_CXX_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: '/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-f7ILxj'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_0c8d1/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_0c8d1.dir/build.make CMakeFiles/cmTC_0c8d1.dir/build
+        gmake[1]: Entering directory '/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-f7ILxj'
+        Building CXX object CMakeFiles/cmTC_0c8d1.dir/CMakeCXXCompilerABI.cpp.o
+        /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --target=aarch64-none-linux-android35 --sysroot=/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat    -fPIE   -v -MD -MT CMakeFiles/cmTC_0c8d1.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_0c8d1.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_0c8d1.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.31/Modules/CMakeCXXCompilerABI.cpp
+        Android (12470979, +pgo, +bolt, +lto, +mlgo, based on r522817c) clang version 18.0.3 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)
+        Target: aarch64-none-linux-android35
+        Thread model: posix
+        InstalledDir: /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/bin
+         (in-process)
+         "/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++" -cc1 -triple aarch64-none-linux-android35 -emit-obj -mrelax-all -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu generic -target-feature +neon -target-feature +v8a -target-feature +fix-cortex-a53-835769 -target-abi aapcs -debug-info-kind=constructor -dwarf-version=4 -debugger-tuning=gdb -fdebug-compilation-dir=/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-f7ILxj -v -ffunction-sections -fdata-sections -fcoverage-compilation-dir=/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-f7ILxj -resource-dir /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18 -dependency-file CMakeFiles/cmTC_0c8d1.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_0c8d1.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -D ANDROID -D _FORTIFY_SOURCE=2 -isysroot /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot -internal-isystem /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/c++/v1 -internal-isystem /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include -internal-isystem /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/local/include -internal-externc-isystem /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android -internal-externc-isystem /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/include -internal-externc-isystem /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include -Wformat -fdeprecated-macro -ferror-limit 19 -stack-protector 2 -fno-signed-char -fgnuc-version=4.2.1 -fcxx-exceptions -fexceptions -target-feature +outline-atomics -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_0c8d1.dir/CMakeCXXCompilerABI.cpp.o -x c++ /usr/share/cmake-3.31/Modules/CMakeCXXCompilerABI.cpp
+        clang -cc1 version 18.0.3 based upon LLVM 18.0.3 default target x86_64-unknown-linux-gnu
+        ignoring nonexistent directory "/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/local/include"
+        ignoring nonexistent directory "/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/c++/v1
+         /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include
+         /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android
+         /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include
+        End of search list.
+        Linking CXX executable cmTC_0c8d1
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0c8d1.dir/link.txt --verbose=1
+        Android (12470979, +pgo, +bolt, +lto, +mlgo, based on r522817c) clang version 18.0.3 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)
+        Target: aarch64-none-linux-android35
+        Thread model: posix
+        InstalledDir: /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/bin
+         "/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/bin/ld.lld" --sysroot=/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot -EL --fix-cortex-a53-843419 -z now -z relro -z max-page-size=4096 --hash-style=gnu --eh-frame-hdr -m aarch64linux -pie -dynamic-linker /system/bin/linker64 -o cmTC_0c8d1 /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/35/crtbegin_dynamic.o -L/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/aarch64 -L/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/35 -L/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android -L/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib --build-id=sha1 --no-undefined-version --fatal-warnings --no-undefined CMakeFiles/cmTC_0c8d1.dir/CMakeCXXCompilerABI.cpp.o -Bstatic -lc++ -Bdynamic -lm /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a -l:libunwind.a -ldl -lc /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a -l:libunwind.a -ldl /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/35/crtend_android.o
+        /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --target=aarch64-none-linux-android35 --sysroot=/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat    -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments   -v CMakeFiles/cmTC_0c8d1.dir/CMakeCXXCompilerABI.cpp.o -o cmTC_0c8d1
+        gmake[1]: Leaving directory '/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-f7ILxj'
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:182 (message)"
+      - "/usr/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Parsed CXX implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/c++/v1]
+          add: [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include]
+          add: [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android]
+          add: [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include]
+        end of search list found
+        collapse include dir [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/c++/v1] ==> [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/c++/v1]
+        collapse include dir [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include] ==> [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include]
+        collapse include dir [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android] ==> [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android]
+        collapse include dir [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include] ==> [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include]
+        implicit include dirs: [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/c++/v1;/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include;/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android;/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:218 (message)"
+      - "/usr/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Parsed CXX implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(\\.[a-z]+)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|")?[ 	]*(([^"]*[/\\])?(ld[0-9]*(\\.[a-z]+)?))("|,| |$)]
+        ignore line: [Change Dir: '/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-f7ILxj']
+        ignore line: []
+        ignore line: [Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_0c8d1/fast]
+        ignore line: [/usr/bin/gmake  -f CMakeFiles/cmTC_0c8d1.dir/build.make CMakeFiles/cmTC_0c8d1.dir/build]
+        ignore line: [gmake[1]: Entering directory '/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-f7ILxj']
+        ignore line: [Building CXX object CMakeFiles/cmTC_0c8d1.dir/CMakeCXXCompilerABI.cpp.o]
+        ignore line: [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --target=aarch64-none-linux-android35 --sysroot=/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat    -fPIE   -v -MD -MT CMakeFiles/cmTC_0c8d1.dir/CMakeCXXCompilerABI.cpp.o -MF CMakeFiles/cmTC_0c8d1.dir/CMakeCXXCompilerABI.cpp.o.d -o CMakeFiles/cmTC_0c8d1.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.31/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [Android (12470979  +pgo  +bolt  +lto  +mlgo  based on r522817c) clang version 18.0.3 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)]
+        ignore line: [Target: aarch64-none-linux-android35]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/bin]
+        ignore line: [ (in-process)]
+        ignore line: [ "/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++" -cc1 -triple aarch64-none-linux-android35 -emit-obj -mrelax-all -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -pic-is-pie -mframe-pointer=non-leaf -ffp-contract=on -fno-rounding-math -mconstructor-aliases -funwind-tables=2 -target-cpu generic -target-feature +neon -target-feature +v8a -target-feature +fix-cortex-a53-835769 -target-abi aapcs -debug-info-kind=constructor -dwarf-version=4 -debugger-tuning=gdb -fdebug-compilation-dir=/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-f7ILxj -v -ffunction-sections -fdata-sections -fcoverage-compilation-dir=/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-f7ILxj -resource-dir /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18 -dependency-file CMakeFiles/cmTC_0c8d1.dir/CMakeCXXCompilerABI.cpp.o.d -MT CMakeFiles/cmTC_0c8d1.dir/CMakeCXXCompilerABI.cpp.o -sys-header-deps -D ANDROID -D _FORTIFY_SOURCE=2 -isysroot /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot -internal-isystem /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/c++/v1 -internal-isystem /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include -internal-isystem /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/local/include -internal-externc-isystem /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android -internal-externc-isystem /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/include -internal-externc-isystem /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include -Wformat -fdeprecated-macro -ferror-limit 19 -stack-protector 2 -fno-signed-char -fgnuc-version=4.2.1 -fcxx-exceptions -fexceptions -target-feature +outline-atomics -D__GCC_HAVE_DWARF2_CFI_ASM=1 -o CMakeFiles/cmTC_0c8d1.dir/CMakeCXXCompilerABI.cpp.o -x c++ /usr/share/cmake-3.31/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [clang -cc1 version 18.0.3 based upon LLVM 18.0.3 default target x86_64-unknown-linux-gnu]
+        ignore line: [ignoring nonexistent directory "/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/local/include"]
+        ignore line: [ignoring nonexistent directory "/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/include"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/c++/v1]
+        ignore line: [ /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/include]
+        ignore line: [ /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include/aarch64-linux-android]
+        ignore line: [ /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/include]
+        ignore line: [End of search list.]
+        ignore line: [Linking CXX executable cmTC_0c8d1]
+        ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0c8d1.dir/link.txt --verbose=1]
+        ignore line: [Android (12470979  +pgo  +bolt  +lto  +mlgo  based on r522817c) clang version 18.0.3 (https://android.googlesource.com/toolchain/llvm-project d8003a456d14a3deb8054cdaa529ffbf02d9b262)]
+        ignore line: [Target: aarch64-none-linux-android35]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/bin]
+        link line: [ "/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/bin/ld.lld" --sysroot=/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot -EL --fix-cortex-a53-843419 -z now -z relro -z max-page-size=4096 --hash-style=gnu --eh-frame-hdr -m aarch64linux -pie -dynamic-linker /system/bin/linker64 -o cmTC_0c8d1 /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/35/crtbegin_dynamic.o -L/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/aarch64 -L/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/35 -L/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android -L/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib --build-id=sha1 --no-undefined-version --fatal-warnings --no-undefined CMakeFiles/cmTC_0c8d1.dir/CMakeCXXCompilerABI.cpp.o -Bstatic -lc++ -Bdynamic -lm /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a -l:libunwind.a -ldl -lc /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a -l:libunwind.a -ldl /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/35/crtend_android.o]
+          arg [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/bin/ld.lld] ==> ignore
+          arg [--sysroot=/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot] ==> ignore
+          arg [-EL] ==> ignore
+          arg [--fix-cortex-a53-843419] ==> ignore
+          arg [-znow] ==> ignore
+          arg [-zrelro] ==> ignore
+          arg [-zmax-page-size=4096] ==> ignore
+          arg [--hash-style=gnu] ==> ignore
+          arg [--eh-frame-hdr] ==> ignore
+          arg [-m] ==> ignore
+          arg [aarch64linux] ==> ignore
+          arg [-pie] ==> ignore
+          arg [-dynamic-linker] ==> ignore
+          arg [/system/bin/linker64] ==> ignore
+          arg [-o] ==> ignore
+          arg [cmTC_0c8d1] ==> ignore
+          arg [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/35/crtbegin_dynamic.o] ==> obj [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/35/crtbegin_dynamic.o]
+          arg [-L/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/aarch64] ==> dir [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/aarch64]
+          arg [-L/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/35] ==> dir [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/35]
+          arg [-L/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android] ==> dir [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android]
+          arg [-L/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib] ==> dir [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib]
+          arg [--build-id=sha1] ==> ignore
+          arg [--no-undefined-version] ==> ignore
+          arg [--fatal-warnings] ==> ignore
+          arg [--no-undefined] ==> ignore
+          arg [CMakeFiles/cmTC_0c8d1.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+          arg [-Bstatic] ==> search static
+          arg [-lc++] ==> lib [c++]
+          arg [-Bdynamic] ==> search dynamic
+          arg [-lm] ==> lib [m]
+          arg [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a] ==> lib [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a]
+          arg [-l:libunwind.a] ==> lib [-l:libunwind.a]
+          arg [-ldl] ==> lib [dl]
+          arg [-lc] ==> lib [c]
+          arg [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a] ==> lib [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a]
+          arg [-l:libunwind.a] ==> lib [-l:libunwind.a]
+          arg [-ldl] ==> lib [dl]
+          arg [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/35/crtend_android.o] ==> obj [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/35/crtend_android.o]
+        linker tool for 'CXX': /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/bin/ld.lld
+        remove lib [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a]
+        remove lib [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/libclang_rt.builtins-aarch64-android.a]
+        collapse library dir [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/aarch64] ==> [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/aarch64]
+        collapse library dir [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/35] ==> [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/35]
+        collapse library dir [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android] ==> [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android]
+        collapse library dir [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib] ==> [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib]
+        implicit libs: [c++;m;-l:libunwind.a;dl;c;-l:libunwind.a;dl]
+        implicit objs: [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/35/crtbegin_dynamic.o;/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/35/crtend_android.o]
+        implicit dirs: [/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/lib/clang/18/lib/linux/aarch64;/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android/35;/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib/aarch64-linux-android;/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot/usr/lib]
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/Internal/CMakeDetermineLinkerId.cmake:40 (message)"
+      - "/usr/share/cmake-3.31/Modules/CMakeDetermineCompilerABI.cmake:255 (cmake_determine_linker_id)"
+      - "/usr/share/cmake-3.31/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Running the CXX compiler's linker: "/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/bin/ld.lld" "-v"
+      LLD 18.0.3 (compatible with GNU linkers)
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/Internal/CheckSourceCompiles.cmake:108 (try_compile)"
+      - "/usr/share/cmake-3.31/Modules/CheckCXXSourceCompiles.cmake:58 (cmake_check_source_compiles)"
+      - "/usr/share/cmake-3.31/Modules/FindThreads.cmake:99 (CHECK_CXX_SOURCE_COMPILES)"
+      - "/usr/share/cmake-3.31/Modules/FindThreads.cmake:163 (_threads_check_libc)"
+      - "CMakeLists.txt:48 (find_package)"
+    checks:
+      - "Performing Test CMAKE_HAVE_LIBC_PTHREAD"
+    directories:
+      source: "/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-kuf11T"
+      binary: "/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-kuf11T"
+    cmakeVariables:
+      ANDROID_ABI: "arm64-v8a"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-35"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "aarch64-none-linux-android35"
+      CMAKE_CXX_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -Wall -Wextra -O2 -fPIC"
+      CMAKE_CXX_FLAGS_DEBUG: "-fno-limit-debug-info  -g -O0"
+      CMAKE_C_COMPILER_TARGET: "aarch64-none-linux-android35"
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot"
+    buildResult:
+      variable: "CMAKE_HAVE_LIBC_PTHREAD"
+      cached: true
+      stdout: |
+        Change Dir: '/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-kuf11T'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_756ff/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_756ff.dir/build.make CMakeFiles/cmTC_756ff.dir/build
+        gmake[1]: Entering directory '/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-kuf11T'
+        Building CXX object CMakeFiles/cmTC_756ff.dir/src.cxx.o
+        /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --target=aarch64-none-linux-android35 --sysroot=/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot -DCMAKE_HAVE_LIBC_PTHREAD  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -Wall -Wextra -O2 -fPIC  -std=gnu++17 -fPIE -MD -MT CMakeFiles/cmTC_756ff.dir/src.cxx.o -MF CMakeFiles/cmTC_756ff.dir/src.cxx.o.d -o CMakeFiles/cmTC_756ff.dir/src.cxx.o -c /home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-kuf11T/src.cxx
+        /home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-kuf11T/src.cxx:13:3: error: use of undeclared identifier 'pthread_cancel'
+           13 |   pthread_cancel(thread);
+              |   ^
+        1 error generated.
+        gmake[1]: *** [CMakeFiles/cmTC_756ff.dir/build.make:82: CMakeFiles/cmTC_756ff.dir/src.cxx.o] Error 1
+        gmake[1]: Leaving directory '/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-kuf11T'
+        gmake: *** [Makefile:134: cmTC_756ff/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CheckLibraryExists.cmake:78 (try_compile)"
+      - "/usr/share/cmake-3.31/Modules/FindThreads.cmake:112 (CHECK_LIBRARY_EXISTS)"
+      - "/usr/share/cmake-3.31/Modules/FindThreads.cmake:175 (_threads_check_lib)"
+      - "CMakeLists.txt:48 (find_package)"
+    checks:
+      - "Looking for pthread_create in pthreads"
+    directories:
+      source: "/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-GSG0UA"
+      binary: "/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-GSG0UA"
+    cmakeVariables:
+      ANDROID_ABI: "arm64-v8a"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-35"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "aarch64-none-linux-android35"
+      CMAKE_CXX_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -Wall -Wextra -O2 -fPIC"
+      CMAKE_CXX_FLAGS_DEBUG: "-fno-limit-debug-info  -g -O0"
+      CMAKE_C_COMPILER_TARGET: "aarch64-none-linux-android35"
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot"
+    buildResult:
+      variable: "CMAKE_HAVE_PTHREADS_CREATE"
+      cached: true
+      stdout: |
+        Change Dir: '/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-GSG0UA'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_fa580/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_fa580.dir/build.make CMakeFiles/cmTC_fa580.dir/build
+        gmake[1]: Entering directory '/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-GSG0UA'
+        Building CXX object CMakeFiles/cmTC_fa580.dir/CheckFunctionExists.cxx.o
+        /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --target=aarch64-none-linux-android35 --sysroot=/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -Wall -Wextra -O2 -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create -std=gnu++17 -fPIE -MD -MT CMakeFiles/cmTC_fa580.dir/CheckFunctionExists.cxx.o -MF CMakeFiles/cmTC_fa580.dir/CheckFunctionExists.cxx.o.d -o CMakeFiles/cmTC_fa580.dir/CheckFunctionExists.cxx.o -c /home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-GSG0UA/CheckFunctionExists.cxx
+        Linking CXX executable cmTC_fa580
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fa580.dir/link.txt --verbose=1
+        ld.lld: error: unable to find library -lpthreads
+        clang++: error: linker command failed with exit code 1 (use -v to see invocation)
+        /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --target=aarch64-none-linux-android35 --sysroot=/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -Wall -Wextra -O2 -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments    CMakeFiles/cmTC_fa580.dir/CheckFunctionExists.cxx.o -o cmTC_fa580  -lpthreads -latomic -lm
+        gmake[1]: *** [CMakeFiles/cmTC_fa580.dir/build.make:103: cmTC_fa580] Error 1
+        gmake[1]: Leaving directory '/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-GSG0UA'
+        gmake: *** [Makefile:134: cmTC_fa580/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/CheckLibraryExists.cmake:78 (try_compile)"
+      - "/usr/share/cmake-3.31/Modules/FindThreads.cmake:112 (CHECK_LIBRARY_EXISTS)"
+      - "/usr/share/cmake-3.31/Modules/FindThreads.cmake:176 (_threads_check_lib)"
+      - "CMakeLists.txt:48 (find_package)"
+    checks:
+      - "Looking for pthread_create in pthread"
+    directories:
+      source: "/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-l7sVeK"
+      binary: "/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-l7sVeK"
+    cmakeVariables:
+      ANDROID_ABI: "arm64-v8a"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-35"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "aarch64-none-linux-android35"
+      CMAKE_CXX_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -Wall -Wextra -O2 -fPIC"
+      CMAKE_CXX_FLAGS_DEBUG: "-fno-limit-debug-info  -g -O0"
+      CMAKE_C_COMPILER_TARGET: "aarch64-none-linux-android35"
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot"
+    buildResult:
+      variable: "CMAKE_HAVE_PTHREAD_CREATE"
+      cached: true
+      stdout: |
+        Change Dir: '/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-l7sVeK'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_7ec62/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_7ec62.dir/build.make CMakeFiles/cmTC_7ec62.dir/build
+        gmake[1]: Entering directory '/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-l7sVeK'
+        Building CXX object CMakeFiles/cmTC_7ec62.dir/CheckFunctionExists.cxx.o
+        /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --target=aarch64-none-linux-android35 --sysroot=/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -Wall -Wextra -O2 -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create -std=gnu++17 -fPIE -MD -MT CMakeFiles/cmTC_7ec62.dir/CheckFunctionExists.cxx.o -MF CMakeFiles/cmTC_7ec62.dir/CheckFunctionExists.cxx.o.d -o CMakeFiles/cmTC_7ec62.dir/CheckFunctionExists.cxx.o -c /home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-l7sVeK/CheckFunctionExists.cxx
+        Linking CXX executable cmTC_7ec62
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7ec62.dir/link.txt --verbose=1
+        ld.lld: error: unable to find library -lpthread
+        clang++: error: linker command failed with exit code 1 (use -v to see invocation)
+        /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --target=aarch64-none-linux-android35 --sysroot=/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -Wall -Wextra -O2 -fPIC -DCHECK_FUNCTION_EXISTS=pthread_create -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments    CMakeFiles/cmTC_7ec62.dir/CheckFunctionExists.cxx.o -o cmTC_7ec62  -lpthread -latomic -lm
+        gmake[1]: *** [CMakeFiles/cmTC_7ec62.dir/build.make:103: cmTC_7ec62] Error 1
+        gmake[1]: Leaving directory '/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-l7sVeK'
+        gmake: *** [Makefile:134: cmTC_7ec62/fast] Error 2
+        
+      exitCode: 2
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "/usr/share/cmake-3.31/Modules/FindThreads.cmake:136 (try_compile)"
+      - "/usr/share/cmake-3.31/Modules/FindThreads.cmake:179 (_threads_check_flag_pthread)"
+      - "CMakeLists.txt:48 (find_package)"
+    checks:
+      - "Check if compiler accepts -pthread"
+    directories:
+      source: "/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-CNPCZA"
+      binary: "/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-CNPCZA"
+    cmakeVariables:
+      ANDROID_ABI: "arm64-v8a"
+      ANDROID_ARM_MODE: "thumb"
+      ANDROID_PIE: "TRUE"
+      ANDROID_PLATFORM: "android-35"
+      ANDROID_STL: "c++_static"
+      ANDROID_TOOLCHAIN: "clang"
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/bin/clang-scan-deps"
+      CMAKE_CXX_COMPILER_TARGET: "aarch64-none-linux-android35"
+      CMAKE_CXX_FLAGS: "-g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -Wall -Wextra -O2 -fPIC"
+      CMAKE_CXX_FLAGS_DEBUG: "-fno-limit-debug-info  -g -O0"
+      CMAKE_C_COMPILER_TARGET: "aarch64-none-linux-android35"
+      CMAKE_EXE_LINKER_FLAGS: "-static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments  "
+      CMAKE_POSITION_INDEPENDENT_CODE: "TRUE"
+      CMAKE_SYSROOT: "/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot"
+    buildResult:
+      variable: "THREADS_HAVE_PTHREAD_ARG"
+      cached: true
+      stdout: |
+        Change Dir: '/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-CNPCZA'
+        
+        Run Build Command(s): /usr/bin/cmake -E env VERBOSE=1 /usr/bin/gmake -f Makefile cmTC_4e8ad/fast
+        /usr/bin/gmake  -f CMakeFiles/cmTC_4e8ad.dir/build.make CMakeFiles/cmTC_4e8ad.dir/build
+        gmake[1]: Entering directory '/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-CNPCZA'
+        Building CXX object CMakeFiles/cmTC_4e8ad.dir/CheckForPthreads.cxx.o
+        /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --target=aarch64-none-linux-android35 --sysroot=/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot   -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -Wall -Wextra -O2 -fPIC  -std=gnu++17 -fPIE -MD -MT CMakeFiles/cmTC_4e8ad.dir/CheckForPthreads.cxx.o -MF CMakeFiles/cmTC_4e8ad.dir/CheckForPthreads.cxx.o.d -o CMakeFiles/cmTC_4e8ad.dir/CheckForPthreads.cxx.o -c /home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-CNPCZA/CheckForPthreads.cxx
+        Linking CXX executable cmTC_4e8ad
+        /usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_4e8ad.dir/link.txt --verbose=1
+        /home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/bin/clang++ --target=aarch64-none-linux-android35 --sysroot=/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/sysroot -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -Wall -Wextra -O2 -fPIC  -static-libstdc++ -Wl,--build-id=sha1 -Wl,--no-undefined-version -Wl,--fatal-warnings -Wl,--no-undefined -Qunused-arguments    CMakeFiles/cmTC_4e8ad.dir/CheckForPthreads.cxx.o -o cmTC_4e8ad  -pthread -latomic -lm
+        gmake[1]: Leaving directory '/home/methun/Clara-alfa/clara_security/daemon/build_android/CMakeFiles/CMakeScratch/TryCompile-CNPCZA'
+        
+      exitCode: 0
+...

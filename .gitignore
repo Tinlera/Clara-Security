@@ -1,0 +1,35 @@
+# Build outputs
+*.apk
+*.zip
+*.img
+!*.sh
+!*.py
+
+# IDE
+.idea/
+.vscode/
+*.iml
+
+# Build directories
+build/
+out/
+.gradle/
+
+# NDK
+android-ndk*/
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Compiled
+*.o
+*.so
+*.a
+
+# Temporary
+*.tmp
+*.bak

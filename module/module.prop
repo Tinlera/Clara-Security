@@ -1,0 +1,7 @@
+id=clara_security
+name=CLARA Security
+version=v0.1.0
+versionCode=1
+author=Clara Team
+description=AI-Powered Autonomous Security System for Android
+updateJson=https://raw.githubusercontent.com/clara-security/releases/main/update.json

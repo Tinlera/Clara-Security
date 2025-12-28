@@ -1,0 +1,39 @@
+# CLARA Security SELinux Policies
+# KernelSU otomatik olarak bu kuralları uygular
+
+# Clara daemon için context tanımla
+type clara_daemon, domain;
+type clara_daemon_exec, exec_type, file_type;
+
+# Daemon'a gerekli izinleri ver
+allow clara_daemon self:capability { dac_override dac_read_search net_admin net_raw sys_ptrace };
+allow clara_daemon self:process { fork signal_perms ptrace };
+
+# Dosya sistemi erişimi
+allow clara_daemon data_file_type:dir { read open search getattr };
+allow clara_daemon data_file_type:file { read open getattr };
+allow clara_daemon sdcard_type:dir { read open search };
+allow clara_daemon sdcard_type:file { read open getattr };
+
+# SMS veritabanı erişimi (ContentProvider üzerinden)
+allow clara_daemon app_data_file:dir { read open search };
+
+# Ağ erişimi
+allow clara_daemon node_type:tcp_socket { node_bind };
+allow clara_daemon port_type:tcp_socket { name_bind name_connect };
+allow clara_daemon self:netlink_socket { create bind setopt };
+
+# Proc dosya sistemi okuma
+allow clara_daemon proc:file { read open getattr };
+allow clara_daemon proc_net:file { read open };
+
+# Log dosyaları yazma
+allow clara_daemon data_file_type:file { write create append };
+allow clara_daemon data_file_type:dir { add_name write };
+
+# Unix socket iletişimi
+allow clara_daemon clara_daemon:unix_stream_socket { create bind listen accept read write };
+
+# Android framework ile iletişim
+binder_use(clara_daemon)
+binder_call(clara_daemon, system_server)

@@ -1,0 +1,2 @@
+/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ar qc libclara_shared.a CMakeFiles/clara_shared.dir/src/ai_engine.cpp.o CMakeFiles/clara_shared.dir/src/clara_daemon.cpp.o
+/home/methun/Clara-alfa/android-ndk-r27c/toolchains/llvm/prebuilt/linux-x86_64/bin/llvm-ranlib libclara_shared.a
