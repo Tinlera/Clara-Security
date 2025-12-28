@@ -230,13 +230,6 @@ Bu proje MIT lisansı altında lisanslanmıştır. Detaylar için [LICENSE](LICE
 
 ---
 
-## 📞 İletişim
-
-- **Geliştirici:** Methun
-- **GitHub:** [@Tinlera](https://github.com/Tinlera)
-
----
-
 <div align="center">
 
 **CLARA Security** - *Comprehensive Layered Autonomous Response Architecture*
