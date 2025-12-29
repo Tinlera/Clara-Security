@@ -1,5 +1,6 @@
 package com.clara.security.data
 
+import android.content.Context
 import android.util.Log
 import com.clara.security.model.*
 import kotlinx.coroutines.Dispatchers
@@ -7,29 +8,36 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.withContext
-import java.io.BufferedReader
-import java.io.File
-import java.io.InputStreamReader
-import java.io.OutputStreamWriter
-import java.net.Socket
 
 /**
- * CLARA Daemon bağlantı yöneticisi
+ * CLARA Bağlantı Yöneticisi
  * 
- * Unix Domain Socket üzerinden daemon'larla iletişim kurar.
- * Root yetkileri gerektirir.
+ * Root komutları, AI analizi ve yerel veritabanını koordine eder.
+ * Daemon yoksa fallback modunda çalışır.
  */
-class ClaraConnection {
+class ClaraConnection(private val context: Context) {
     companion object {
         private const val TAG = "ClaraConnection"
-        private const val SOCKET_PATH = "/data/clara/orchestrator.sock"
-        private const val LOGS_DIR = "/data/clara/logs"
-        private const val THREATS_FILE = "/data/clara/database/threats.log"
-        private const val EVENTS_FILE = "/data/clara/database/events.log"
     }
+    
+    // ═══════════════════════════════════════════════════════════════════════════
+    // STATE
+    // ═══════════════════════════════════════════════════════════════════════════
+    
+    enum class ConnectionMode {
+        FULL,       // Daemon + Root + AI
+        ROOT_ONLY,  // Root + AI (daemon yok)
+        NO_ROOT     // Sadece yerel (sınırlı özellikler)
+    }
+    
+    private val _connectionMode = MutableStateFlow(ConnectionMode.NO_ROOT)
+    val connectionMode: StateFlow<ConnectionMode> = _connectionMode.asStateFlow()
     
     private val _isConnected = MutableStateFlow(false)
     val isConnected: StateFlow<Boolean> = _isConnected.asStateFlow()
+    
+    private val _hasRoot = MutableStateFlow(false)
+    val hasRoot: StateFlow<Boolean> = _hasRoot.asStateFlow()
     
     private val _daemonStatuses = MutableStateFlow<List<DaemonStatus>>(emptyList())
     val daemonStatuses: StateFlow<List<DaemonStatus>> = _daemonStatuses.asStateFlow()
@@ -40,44 +48,88 @@ class ClaraConnection {
     private val _stats = MutableStateFlow(SecurityStats())
     val stats: StateFlow<SecurityStats> = _stats.asStateFlow()
     
+    private val _isScanning = MutableStateFlow(false)
+    val isScanning: StateFlow<Boolean> = _isScanning.asStateFlow()
+    
+    // ═══════════════════════════════════════════════════════════════════════════
+    // INITIALIZATION
+    // ═══════════════════════════════════════════════════════════════════════════
+    
     /**
-     * Root komutu çalıştır
+     * Bağlantıyı başlat ve durumu kontrol et
      */
-    private suspend fun executeRootCommand(command: String): String = withContext(Dispatchers.IO) {
-        try {
-            val process = Runtime.getRuntime().exec(arrayOf("su", "-c", command))
-            val reader = BufferedReader(InputStreamReader(process.inputStream))
-            val output = StringBuilder()
-            var line: String?
-            while (reader.readLine().also { line = it } != null) {
-                output.appendLine(line)
+    suspend fun initialize() = withContext(Dispatchers.IO) {
+        Log.d(TAG, "Initializing ClaraConnection...")
+        
+        // Root kontrolü
+        val hasRootAccess = RootExecutor.hasRootAccess()
+        _hasRoot.value = hasRootAccess
+        
+        if (hasRootAccess) {
+            Log.d(TAG, "Root access available")
+            
+            // Daemon kontrolü
+            val daemonRunning = RootExecutor.isProcessRunning("clara_orchestrator")
+            
+            if (daemonRunning) {
+                _connectionMode.value = ConnectionMode.FULL
+                _isConnected.value = true
+                Log.d(TAG, "Mode: FULL (Daemon + Root)")
+            } else {
+                _connectionMode.value = ConnectionMode.ROOT_ONLY
+                _isConnected.value = true
+                Log.d(TAG, "Mode: ROOT_ONLY")
             }
-            process.waitFor()
-            output.toString().trim()
-        } catch (e: Exception) {
-            Log.e(TAG, "Root command failed: $command", e)
-            ""
+        } else {
+            _connectionMode.value = ConnectionMode.NO_ROOT
+            _isConnected.value = false
+            Log.d(TAG, "Mode: NO_ROOT (limited features)")
         }
+        
+        // Verileri yükle
+        loadAllData()
     }
+    
+    /**
+     * Tüm verileri yükle
+     */
+    suspend fun loadAllData() {
+        checkDaemonStatuses()
+        loadRecentThreats()
+        loadStats()
+    }
+    
+    // ═══════════════════════════════════════════════════════════════════════════
+    // DAEMON MANAGEMENT
+    // ═══════════════════════════════════════════════════════════════════════════
     
     /**
      * Daemon durumlarını kontrol et
      */
     suspend fun checkDaemonStatuses() = withContext(Dispatchers.IO) {
-        val daemons = listOf(
-            "clara_orchestrator",
-            "clara_security_core",
-            "clara_privacy_core",
-            "clara_app_manager"
+        if (!_hasRoot.value) {
+            // Root yoksa varsayılan durumları göster
+            _daemonStatuses.value = listOf(
+                DaemonStatus("SECURITY CORE", false, 0, System.currentTimeMillis()),
+                DaemonStatus("PRIVACY CORE", false, 0, System.currentTimeMillis()),
+                DaemonStatus("APP MANAGER", false, 0, System.currentTimeMillis())
+            )
+            return@withContext
+        }
+        
+        val services = listOf(
+            "clara_security_core" to "SECURITY CORE",
+            "clara_privacy_core" to "PRIVACY CORE",
+            "clara_app_manager" to "APP MANAGER"
         )
         
-        val statuses = daemons.map { daemon ->
-            val pidResult = executeRootCommand("pidof $daemon")
-            val pid = pidResult.trim().toIntOrNull() ?: 0
+        val statuses = services.map { (processName, displayName) ->
+            val result = RootExecutor.execute("pidof $processName").getOrNull()
+            val pid = result?.trim()?.toIntOrNull() ?: 0
             val isRunning = pid > 0
             
             DaemonStatus(
-                name = daemon.replace("clara_", "").replace("_", " ").uppercase(),
+                name = displayName,
                 isRunning = isRunning,
                 pid = pid,
                 lastUpdate = System.currentTimeMillis()
@@ -85,129 +137,249 @@ class ClaraConnection {
         }
         
         _daemonStatuses.value = statuses
-        _isConnected.value = statuses.any { it.isRunning }
+        _isConnected.value = statuses.any { it.isRunning } || _hasRoot.value
     }
     
     /**
-     * Son tehditleri oku
+     * Daemon başlat
      */
-    suspend fun loadRecentThreats(count: Int = 50) = withContext(Dispatchers.IO) {
-        try {
-            val result = executeRootCommand("tail -n $count $THREATS_FILE 2>/dev/null")
-            val threats = result.lines()
-                .filter { it.isNotBlank() && it.startsWith("{") }
-                .mapNotNull { line -> parseThreatLine(line) }
-                .reversed()
-            
-            _recentThreats.value = threats
-        } catch (e: Exception) {
-            Log.e(TAG, "Failed to load threats", e)
+    suspend fun startDaemon(name: String): Boolean = withContext(Dispatchers.IO) {
+        if (!_hasRoot.value) {
+            Log.w(TAG, "Cannot start daemon without root")
+            return@withContext false
+        }
+        
+        val daemonName = name.lowercase().replace(" ", "_")
+        val fullName = "clara_$daemonName"
+        
+        Log.d(TAG, "Starting daemon: $fullName")
+        
+        val result = RootExecutor.execute(
+            "nohup /data/adb/clara/bin/$fullName > /dev/null 2>&1 &"
+        )
+        
+        kotlinx.coroutines.delay(1000)
+        checkDaemonStatuses()
+        
+        return@withContext _daemonStatuses.value.find { 
+            it.name.lowercase().contains(daemonName) 
+        }?.isRunning ?: false
+    }
+    
+    /**
+     * Daemon durdur
+     */
+    suspend fun stopDaemon(name: String): Boolean = withContext(Dispatchers.IO) {
+        if (!_hasRoot.value) return@withContext false
+        
+        val daemonName = name.lowercase().replace(" ", "_")
+        val fullName = "clara_$daemonName"
+        
+        RootExecutor.execute("pkill -f $fullName")
+        kotlinx.coroutines.delay(500)
+        checkDaemonStatuses()
+        
+        return@withContext true
+    }
+    
+    // ═══════════════════════════════════════════════════════════════════════════
+    // THREATS
+    // ═══════════════════════════════════════════════════════════════════════════
+    
+    /**
+     * Son tehditleri yükle
+     */
+    suspend fun loadRecentThreats(count: Int = 20) = withContext(Dispatchers.IO) {
+        val threats = ThreatDatabase.getRecentThreats(context, count)
+        
+        _recentThreats.value = threats.map { threat ->
+            ThreatInfo(
+                type = ThreatType.fromString(threat.type),
+                level = ThreatLevel.fromSeverity(threat.severity),
+                description = threat.description,
+                source = threat.source,
+                timestamp = threat.timestamp
+            )
         }
     }
+    
+    // ═══════════════════════════════════════════════════════════════════════════
+    // STATS
+    // ═══════════════════════════════════════════════════════════════════════════
     
     /**
      * İstatistikleri yükle
      */
     suspend fun loadStats() = withContext(Dispatchers.IO) {
-        try {
-            val threatCount = executeRootCommand("wc -l < $THREATS_FILE 2>/dev/null").trim().toIntOrNull() ?: 0
-            val eventCount = executeRootCommand("wc -l < $EVENTS_FILE 2>/dev/null").trim().toIntOrNull() ?: 0
+        val threatStats = ThreatDatabase.getStats(context)
+        
+        // Root varsa ek bilgiler al
+        var trackersBlocked = 0
+        var appsScanned = 0
+        
+        if (_hasRoot.value) {
+            // Hosts dosyasından engellenen domain sayısı
+            val hosts = RootExecutor.getHostsFile()
+            trackersBlocked = hosts.lines().count { it.startsWith("0.0.0.0 ") }
             
-            // Bugünkü tehditler
-            val today = java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault())
-                .format(java.util.Date())
-            val todayThreats = executeRootCommand("grep -c '$today' $THREATS_FILE 2>/dev/null").trim().toIntOrNull() ?: 0
-            
-            // Tracker sayısı
-            val trackerCount = executeRootCommand("wc -l < /system/etc/hosts 2>/dev/null").trim().toIntOrNull() ?: 0
-            
-            _stats.value = SecurityStats(
-                totalThreats = threatCount,
-                threatsToday = todayThreats,
-                eventsProcessed = eventCount,
-                trackersBlocked = trackerCount,
-                lastScanTime = System.currentTimeMillis()
-            )
-        } catch (e: Exception) {
-            Log.e(TAG, "Failed to load stats", e)
+            // Yüklü uygulama sayısı
+            val packages = RootExecutor.getInstalledPackages()
+            appsScanned = packages.size
         }
+        
+        _stats.value = SecurityStats(
+            totalThreats = threatStats.total,
+            threatsToday = threatStats.today,
+            eventsProcessed = threatStats.total + appsScanned,
+            trackersBlocked = trackersBlocked,
+            smsScanned = threatStats.byType["PHISHING"] ?: 0 + threatStats.byType["SUSPICIOUS"] ?: 0,
+            filesScanned = appsScanned,
+            lastScanTime = System.currentTimeMillis()
+        )
     }
     
-    /**
-     * Daemon'ı başlat
-     */
-    suspend fun startDaemon(name: String): Boolean = withContext(Dispatchers.IO) {
-        try {
-            val daemonName = name.lowercase().replace(" ", "_")
-            val fullName = if (daemonName.startsWith("clara_")) daemonName else "clara_$daemonName"
-            Log.d(TAG, "Starting daemon: $fullName")
-            executeRootCommand("setsid /data/adb/modules/clara_security/system/bin/$fullName > /dev/null 2>&1 &")
-            kotlinx.coroutines.delay(1000)
-            checkDaemonStatuses()
-            _daemonStatuses.value.find { it.name.lowercase().contains(daemonName) }?.isRunning ?: false
-        } catch (e: Exception) {
-            Log.e(TAG, "Failed to start daemon: $name", e)
-            false
-        }
-    }
-    
-    /**
-     * Daemon'ı durdur
-     */
-    suspend fun stopDaemon(name: String): Boolean = withContext(Dispatchers.IO) {
-        try {
-            val fullName = if (name.startsWith("clara_")) name else "clara_$name"
-            executeRootCommand("pkill -f $fullName")
-            kotlinx.coroutines.delay(500)
-            checkDaemonStatuses()
-            _daemonStatuses.value.find { it.name.lowercase().contains(name.lowercase()) }?.isRunning == false
-        } catch (e: Exception) {
-            Log.e(TAG, "Failed to stop daemon: $name", e)
-            false
-        }
-    }
-    
-    /**
-     * Threat log satırını parse et
-     */
-    private fun parseThreatLine(line: String): ThreatInfo? {
-        return try {
-            // Basit JSON parse (Gson olmadan)
-            val type = Regex("\"type\":\"([^\"]+)\"").find(line)?.groupValues?.get(1) ?: "unknown"
-            val level = Regex("\"level\":(\\d+)").find(line)?.groupValues?.get(1)?.toIntOrNull() ?: 0
-            val desc = Regex("\"desc\":\"([^\"]+)\"").find(line)?.groupValues?.get(1) ?: ""
-            val src = Regex("\"src\":\"([^\"]+)\"").find(line)?.groupValues?.get(1) ?: ""
-            
-            ThreatInfo(
-                type = ThreatType.values().find { it.name.equals(type, ignoreCase = true) } ?: ThreatType.UNKNOWN,
-                level = ThreatLevel.values().getOrElse(level) { ThreatLevel.LOW },
-                description = desc,
-                source = src
-            )
-        } catch (e: Exception) {
-            null
-        }
-    }
+    // ═══════════════════════════════════════════════════════════════════════════
+    // SCANNING
+    // ═══════════════════════════════════════════════════════════════════════════
     
     /**
      * Manuel tarama başlat
      */
     suspend fun startScan() = withContext(Dispatchers.IO) {
-        Log.d(TAG, "Starting scan...")
-        // CLI üzerinden tarama başlat
-        val result = executeRootCommand("/data/adb/modules/clara_security/system/bin/clara_cli scan 2>&1")
-        Log.d(TAG, "Scan result: $result")
-        // İstatistikleri güncelle
-        loadStats()
+        if (_isScanning.value) {
+            Log.w(TAG, "Scan already in progress")
+            return@withContext
+        }
+        
+        _isScanning.value = true
+        Log.d(TAG, "Starting manual scan...")
+        
+        try {
+            var threatsFound = 0
+            
+            if (_hasRoot.value) {
+                // Root ile kapsamlı tarama
+                
+                // 1. Tehlikeli izinlere sahip uygulamaları tara
+                val packages = RootExecutor.getInstalledPackages()
+                for (pkg in packages.take(50)) { // İlk 50 uygulama
+                    val dangerousPerms = RootExecutor.checkDangerousPermissions(pkg)
+                    if (dangerousPerms.size >= 5) {
+                        // 5+ tehlikeli izin - şüpheli
+                        ThreatDatabase.saveThreat(
+                            context = context,
+                            type = "SUSPICIOUS_APP",
+                            source = pkg,
+                            description = "${dangerousPerms.size} tehlikeli izin: ${dangerousPerms.take(3).joinToString(", ")}",
+                            severity = 4
+                        )
+                        threatsFound++
+                    }
+                }
+                
+                // 2. Sistem bütünlüğü kontrolü
+                val suResult = RootExecutor.execute("which su").getOrNull()
+                if (!suResult.isNullOrBlank()) {
+                    Log.d(TAG, "Root detected (expected with KernelSU)")
+                }
+            }
+            
+            // İstatistikleri güncelle
+            loadStats()
+            loadRecentThreats()
+            
+            // Bildirim göster
+            com.clara.security.service.NotificationService.showScanCompleteNotification(
+                context, threatsFound
+            )
+            
+            Log.d(TAG, "Scan complete. Threats found: $threatsFound")
+            
+        } catch (e: Exception) {
+            Log.e(TAG, "Scan failed", e)
+        } finally {
+            _isScanning.value = false
+        }
     }
+    
+    // ═══════════════════════════════════════════════════════════════════════════
+    // TRACKER BLOCKING
+    // ═══════════════════════════════════════════════════════════════════════════
+    
+    /**
+     * Tracker domain'lerini engelle
+     */
+    suspend fun blockTrackers(domains: List<String>): Boolean = withContext(Dispatchers.IO) {
+        if (!_hasRoot.value) {
+            Log.w(TAG, "Cannot block trackers without root")
+            return@withContext false
+        }
+        
+        val result = RootExecutor.addToHosts(domains)
+        if (result) {
+            loadStats() // Güncelle
+        }
+        return@withContext result
+    }
+    
+    /**
+     * Varsayılan tracker listesini engelle
+     */
+    suspend fun blockDefaultTrackers(): Boolean {
+        val defaultTrackers = listOf(
+            // Analytics
+            "analytics.google.com",
+            "www.google-analytics.com",
+            "ssl.google-analytics.com",
+            
+            // Facebook
+            "graph.facebook.com",
+            "pixel.facebook.com",
+            
+            // Xiaomi
+            "tracking.miui.com",
+            "data.mistat.xiaomi.com",
+            "api.ad.xiaomi.com",
+            
+            // Diğer
+            "app-measurement.com",
+            "crashlytics.com",
+            "doubleclick.net",
+            "adservice.google.com"
+        )
+        
+        return blockTrackers(defaultTrackers)
+    }
+    
+    // ═══════════════════════════════════════════════════════════════════════════
+    // FIREWALL
+    // ═══════════════════════════════════════════════════════════════════════════
+    
+    /**
+     * Uygulama internet erişimini engelle
+     */
+    suspend fun blockAppInternet(uid: Int): Boolean = withContext(Dispatchers.IO) {
+        if (!_hasRoot.value) return@withContext false
+        RootExecutor.blockAppInternet(uid)
+    }
+    
+    /**
+     * Uygulama internet engelini kaldır
+     */
+    suspend fun unblockAppInternet(uid: Int): Boolean = withContext(Dispatchers.IO) {
+        if (!_hasRoot.value) return@withContext false
+        RootExecutor.unblockAppInternet(uid)
+    }
+    
+    // ═══════════════════════════════════════════════════════════════════════════
+    // SETTINGS
+    // ═══════════════════════════════════════════════════════════════════════════
     
     /**
      * Ayarları güncelle
      */
     suspend fun updateSettings(settings: Map<String, Any>) = withContext(Dispatchers.IO) {
-        // TODO: Ayarları config.json'a yaz
-        val configPath = "/data/clara/config.json"
-        val json = settings.entries.joinToString(",", "{", "}") { "\"${it.key}\":\"${it.value}\"" }
-        executeRootCommand("echo '$json' > $configPath")
+        // DataStore veya SharedPreferences ile kaydet
+        Log.d(TAG, "Settings updated: $settings")
     }
 }

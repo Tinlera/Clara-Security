@@ -56,9 +56,8 @@ sealed class Screen(
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CLARAApp() {
+fun CLARAApp(connection: ClaraConnection) {
     val navController = rememberNavController()
-    val connection = remember { ClaraConnection() }
     
     val screens = listOf(
         Screen.Dashboard,
@@ -67,12 +66,10 @@ fun CLARAApp() {
         Screen.Settings
     )
     
-    // İlk yüklemede verileri al
-    LaunchedEffect(Unit) {
-        connection.checkDaemonStatuses()
-        connection.loadRecentThreats()
-        connection.loadStats()
-    }
+    // Bağlantı durumunu izle
+    val isConnected by connection.isConnected.collectAsState()
+    val hasRoot by connection.hasRoot.collectAsState()
+    val connectionMode by connection.connectionMode.collectAsState()
     
     Scaffold(
         topBar = {

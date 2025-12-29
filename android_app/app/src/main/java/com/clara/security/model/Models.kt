@@ -23,7 +23,23 @@ enum class ThreatType {
     NETWORK_ATTACK,
     KEYLOGGER,
     ROOT_DETECTION,
-    PERMISSION_ABUSE
+    PERMISSION_ABUSE;
+    
+    companion object {
+        fun fromString(value: String): ThreatType {
+            return when (value.uppercase()) {
+                "PHISHING", "PHISHING_SMS" -> PHISHING_SMS
+                "PHISHING_URL" -> PHISHING_URL
+                "MALWARE", "MALWARE_FILE" -> MALWARE_FILE
+                "SUSPICIOUS", "SUSPICIOUS_APP" -> SUSPICIOUS_APP
+                "NETWORK", "NETWORK_ATTACK" -> NETWORK_ATTACK
+                "KEYLOGGER" -> KEYLOGGER
+                "ROOT", "ROOT_DETECTION" -> ROOT_DETECTION
+                "PERMISSION", "PERMISSION_ABUSE" -> PERMISSION_ABUSE
+                else -> UNKNOWN
+            }
+        }
+    }
 }
 
 enum class ThreatLevel {
@@ -31,7 +47,19 @@ enum class ThreatLevel {
     LOW,
     MEDIUM,
     HIGH,
-    CRITICAL
+    CRITICAL;
+    
+    companion object {
+        fun fromSeverity(severity: Int): ThreatLevel {
+            return when {
+                severity <= 0 -> NONE
+                severity <= 2 -> LOW
+                severity <= 4 -> MEDIUM
+                severity <= 7 -> HIGH
+                else -> CRITICAL
+            }
+        }
+    }
 }
 
 /**
