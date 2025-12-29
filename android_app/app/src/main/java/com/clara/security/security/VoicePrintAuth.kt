@@ -14,18 +14,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
 import kotlin.math.abs
 import kotlin.math.sqrt
 
 /**
  * Voice Print Authentication
- * 
- * Kullanıcının ses parmak izi ile ayarlara erişim kontrolü.
- * - Ses kaydı ve analizi
- * - Voice print karşılaştırma
- * - Ayarlara erişim yetkisi
+ * Kullanicinin ses parmak izi ile ayarlara erisim kontrolu.
  */
 object VoicePrintAuth {
     private const val TAG = "VoicePrintAuth"
@@ -33,7 +27,7 @@ object VoicePrintAuth {
     private const val SAMPLE_RATE = 44100
     private const val CHANNEL_CONFIG = AudioFormat.CHANNEL_IN_MONO
     private const val AUDIO_FORMAT = AudioFormat.ENCODING_PCM_16BIT
-    private const val RECORD_DURATION_MS = 3000 // 3 saniye kayıt
+    private const val RECORD_DURATION_MS = 3000
     
     private var context: Context? = null
     private var voicePrintFile: File? = null
@@ -44,17 +38,12 @@ object VoicePrintAuth {
     private val _isVerifying = MutableStateFlow(false)
     val isVerifying: StateFlow<Boolean> = _isVerifying.asStateFlow()
     
-    // Kayıtlı ses özellikleri
     private var enrolledFeatures: VoiceFeatures? = null
     
-    /**
-     * Initialize
-     */
     fun initialize(ctx: Context) {
         context = ctx.applicationContext
         voicePrintFile = File(ctx.filesDir, "voiceprint.dat")
         
-        // Kayıtlı voice print var mı kontrol et
         if (voicePrintFile?.exists() == true) {
             loadEnrolledVoicePrint()
         }
@@ -62,10 +51,7 @@ object VoicePrintAuth {
         Log.d(TAG, "VoicePrintAuth initialized, enrolled: ${_isEnrolled.value}")
     }
     
-    /**
-     * Yeni ses parmak izi kaydet
-     */
-    suspend fun enrollVoicePrint(phrase: String = "Clara beni tanı"): Boolean = withContext(Dispatchers.IO) {
+    suspend fun enrollVoicePrint(phrase: String = "Clara beni tani"): Boolean = withContext(Dispatchers.IO) {
         Log.d(TAG, "Starting voice enrollment...")
         
         if (!hasRecordPermission()) {
@@ -74,17 +60,14 @@ object VoicePrintAuth {
         }
         
         try {
-            // Ses kaydet
             val audioData = recordAudio()
             if (audioData.isEmpty()) {
                 Log.e(TAG, "Failed to record audio")
                 return@withContext false
             }
             
-            // Ses özelliklerini çıkar
             val features = extractVoiceFeatures(audioData)
             
-            // Kaydet
             enrolledFeatures = features
             saveEnrolledVoicePrint(features)
             
@@ -98,12 +81,9 @@ object VoicePrintAuth {
         }
     }
     
-    /**
-     * Ses ile doğrulama yap
-     */
     suspend fun verifyVoice(): VoiceVerifyResult = withContext(Dispatchers.IO) {
         if (enrolledFeatures == null) {
-            return@withContext VoiceVerifyResult(false, 0f, "Kayıtlı ses bulunamadı")
+            return@withContext VoiceVerifyResult(false, 0f, "Kayitli ses bulunamadi")
         }
         
         if (!hasRecordPermission()) {
@@ -115,39 +95,32 @@ object VoicePrintAuth {
         try {
             Log.d(TAG, "Starting voice verification...")
             
-            // Ses kaydet
             val audioData = recordAudio()
             if (audioData.isEmpty()) {
-                return@withContext VoiceVerifyResult(false, 0f, "Ses kaydı başarısız")
+                return@withContext VoiceVerifyResult(false, 0f, "Ses kaydi basarisiz")
             }
             
-            // Ses özelliklerini çıkar
             val currentFeatures = extractVoiceFeatures(audioData)
-            
-            // Karşılaştır
             val similarity = compareVoiceFeatures(enrolledFeatures!!, currentFeatures)
             
             Log.d(TAG, "Voice similarity: $similarity")
             
-            val threshold = 0.75f // %75 benzerlik eşiği
+            val threshold = 0.75f
             val isMatch = similarity >= threshold
             
             VoiceVerifyResult(
                 isMatch = isMatch,
                 confidence = similarity,
-                message = if (isMatch) "Ses doğrulandı" else "Ses eşleşmedi"
+                message = if (isMatch) "Ses dogrulandi" else "Ses eslesmedi"
             )
         } catch (e: Exception) {
             Log.e(TAG, "Voice verification failed", e)
-            VoiceVerifyResult(false, 0f, "Doğrulama hatası: ${e.message}")
+            VoiceVerifyResult(false, 0f, "Dogrulama hatasi: ${e.message}")
         } finally {
             _isVerifying.value = false
         }
     }
     
-    /**
-     * Ayarlara erişim izni ver
-     */
     suspend fun requestSettingsAccess(): Boolean {
         val result = verifyVoice()
         
@@ -159,10 +132,6 @@ object VoicePrintAuth {
             return false
         }
     }
-    
-    // ═══════════════════════════════════════════════════════════════════════════
-    // AUDIO RECORDING
-    // ═══════════════════════════════════════════════════════════════════════════
     
     private suspend fun recordAudio(): ShortArray = withContext(Dispatchers.IO) {
         val bufferSize = AudioRecord.getMinBufferSize(SAMPLE_RATE, CHANNEL_CONFIG, AUDIO_FORMAT)
@@ -214,22 +183,13 @@ object VoicePrintAuth {
         audioData.copyOf(totalRead)
     }
     
-    // ═══════════════════════════════════════════════════════════════════════════
-    // FEATURE EXTRACTION
-    // ═══════════════════════════════════════════════════════════════════════════
-    
     private fun extractVoiceFeatures(audioData: ShortArray): VoiceFeatures {
-        // Basit ses özellikleri çıkarma
-        // Gerçek bir voice print için MFCC kullanılmalı
-        
-        // 1. RMS Energy
         var sumSquares = 0.0
         for (sample in audioData) {
             sumSquares += sample.toDouble() * sample.toDouble()
         }
         val rmsEnergy = sqrt(sumSquares / audioData.size).toFloat()
         
-        // 2. Zero Crossing Rate
         var zeroCrossings = 0
         for (i in 1 until audioData.size) {
             if ((audioData[i] >= 0 && audioData[i-1] < 0) ||
@@ -239,7 +199,6 @@ object VoicePrintAuth {
         }
         val zcr = zeroCrossings.toFloat() / audioData.size
         
-        // 3. Spectral Centroid (basitleştirilmiş)
         var weightedSum = 0.0
         var sum = 0.0
         for (i in audioData.indices) {
@@ -249,10 +208,7 @@ object VoicePrintAuth {
         }
         val spectralCentroid = if (sum > 0) (weightedSum / sum).toFloat() else 0f
         
-        // 4. Peak amplitude
         val peakAmplitude = audioData.maxOfOrNull { abs(it.toInt()) }?.toFloat() ?: 0f
-        
-        // 5. Average amplitude
         val avgAmplitude = audioData.map { abs(it.toInt()) }.average().toFloat()
         
         return VoiceFeatures(
@@ -265,21 +221,14 @@ object VoicePrintAuth {
     }
     
     private fun compareVoiceFeatures(enrolled: VoiceFeatures, current: VoiceFeatures): Float {
-        // Normalize edilmiş özellik karşılaştırması
-        
         val rmsDiff = 1f - minOf(1f, abs(enrolled.rmsEnergy - current.rmsEnergy) / (enrolled.rmsEnergy + 1f))
         val zcrDiff = 1f - minOf(1f, abs(enrolled.zeroCrossingRate - current.zeroCrossingRate) / 0.1f)
         val scDiff = 1f - minOf(1f, abs(enrolled.spectralCentroid - current.spectralCentroid) / (enrolled.spectralCentroid + 1f))
         val peakDiff = 1f - minOf(1f, abs(enrolled.peakAmplitude - current.peakAmplitude) / (enrolled.peakAmplitude + 1f))
         val avgDiff = 1f - minOf(1f, abs(enrolled.averageAmplitude - current.averageAmplitude) / (enrolled.averageAmplitude + 1f))
         
-        // Ağırlıklı ortalama
         return (rmsDiff * 0.25f + zcrDiff * 0.15f + scDiff * 0.25f + peakDiff * 0.15f + avgDiff * 0.20f)
     }
-    
-    // ═══════════════════════════════════════════════════════════════════════════
-    // PERSISTENCE
-    // ═══════════════════════════════════════════════════════════════════════════
     
     private fun saveEnrolledVoicePrint(features: VoiceFeatures) {
         voicePrintFile?.let { file ->
@@ -296,19 +245,18 @@ object VoicePrintAuth {
     private fun loadEnrolledVoicePrint() {
         voicePrintFile?.let { file ->
             try {
-                if (file.exists()) {
-                    val data = file.readText().split(",")
-                    if (data.size >= 5) {
-                        enrolledFeatures = VoiceFeatures(
-                            rmsEnergy = data[0].toFloat(),
-                            zeroCrossingRate = data[1].toFloat(),
-                            spectralCentroid = data[2].toFloat(),
-                            peakAmplitude = data[3].toFloat(),
-                            averageAmplitude = data[4].toFloat()
-                        )
-                        _isEnrolled.value = true
-                        Log.d(TAG, "Voice print loaded")
-                    }
+                if (!file.exists()) return@let
+                val data = file.readText().split(",")
+                if (data.size >= 5) {
+                    enrolledFeatures = VoiceFeatures(
+                        rmsEnergy = data[0].toFloat(),
+                        zeroCrossingRate = data[1].toFloat(),
+                        spectralCentroid = data[2].toFloat(),
+                        peakAmplitude = data[3].toFloat(),
+                        averageAmplitude = data[4].toFloat()
+                    )
+                    _isEnrolled.value = true
+                    Log.d(TAG, "Voice print loaded")
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to load voice print", e)
@@ -316,9 +264,6 @@ object VoicePrintAuth {
         }
     }
     
-    /**
-     * Voice print'i sil
-     */
     fun deleteVoicePrint() {
         voicePrintFile?.delete()
         enrolledFeatures = null
@@ -326,20 +271,12 @@ object VoicePrintAuth {
         Log.d(TAG, "Voice print deleted")
     }
     
-    // ═══════════════════════════════════════════════════════════════════════════
-    // HELPERS
-    // ═══════════════════════════════════════════════════════════════════════════
-    
     private fun hasRecordPermission(): Boolean {
         return context?.let {
             ContextCompat.checkSelfPermission(it, Manifest.permission.RECORD_AUDIO) ==
                     PackageManager.PERMISSION_GRANTED
         } ?: false
     }
-    
-    // ═══════════════════════════════════════════════════════════════════════════
-    // DATA CLASSES
-    // ═══════════════════════════════════════════════════════════════════════════
     
     data class VoiceFeatures(
         val rmsEnergy: Float,

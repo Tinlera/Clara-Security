@@ -27,10 +27,11 @@ class ClaraConnectionService : Service() {
     }
     
     private val serviceScope = CoroutineScope(Dispatchers.IO + SupervisorJob())
-    private val connection = ClaraConnection()
+    private lateinit var connection: ClaraConnection
     
     override fun onCreate() {
         super.onCreate()
+        connection = ClaraConnection(applicationContext)
         createNotificationChannel()
     }
     

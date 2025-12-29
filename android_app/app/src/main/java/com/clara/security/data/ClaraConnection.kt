@@ -235,7 +235,7 @@ class ClaraConnection(private val _context: Context) {
             threatsToday = threatStats.today,
             eventsProcessed = threatStats.total + appsScanned,
             trackersBlocked = trackersBlocked,
-            smsScanned = threatStats.byType["PHISHING"] ?: 0 + threatStats.byType["SUSPICIOUS"] ?: 0,
+            smsScanned = (threatStats.byType["PHISHING"] ?: 0) + (threatStats.byType["SUSPICIOUS"] ?: 0),
             filesScanned = appsScanned,
             lastScanTime = System.currentTimeMillis()
         )

@@ -62,6 +62,44 @@ data class WifiAuditResult(
     val isConnected: Boolean = true
 )
 
+// Helper fonksiyonlar
+private fun calculateWifiSecurityScore(wifi: com.clara.security.data.SystemDataProvider.WifiInfo, security: WifiSecurityLevel): Int {
+    var score = 50
+    
+    score += when (security) {
+        WifiSecurityLevel.WPA3 -> 40
+        WifiSecurityLevel.WPA2 -> 30
+        WifiSecurityLevel.WPA -> 15
+        WifiSecurityLevel.WEP -> -10
+        WifiSecurityLevel.OPEN -> -30
+    }
+    
+    if (wifi.signalStrength > 70) score += 10
+    else if (wifi.signalStrength > 50) score += 5
+    
+    return score.coerceIn(0, 100)
+}
+
+private fun detectWifiThreats(security: WifiSecurityLevel): List<WifiThreatType> {
+    val threats = mutableListOf<WifiThreatType>()
+    if (security == WifiSecurityLevel.OPEN) threats.add(WifiThreatType.OPEN_NETWORK)
+    if (security == WifiSecurityLevel.WEP) threats.add(WifiThreatType.WEAK_ENCRYPTION)
+    return threats
+}
+
+private fun generateWifiWarnings(wifi: com.clara.security.data.SystemDataProvider.WifiInfo, security: WifiSecurityLevel): List<String> {
+    val warnings = mutableListOf<String>()
+    if (wifi.signalStrength < 40) warnings.add("Zayıf sinyal - bağlantı kopabilir")
+    if (security != WifiSecurityLevel.WPA3) warnings.add("WPA3 desteği için router güncellemesi kontrol edin")
+    return warnings
+}
+
+private fun getWifiRecommendations(): List<String> = listOf(
+    "Güçlü ve benzersiz WiFi şifresi kullanın",
+    "Router firmware'ini güncel tutun",
+    "WPS'i devre dışı bırakın"
+)
+
 /**
  * WiFi Security Audit ekranı
  */
@@ -90,7 +128,7 @@ fun WifiAuditScreen(
                     val securityLevel = WifiSecurityLevel.WPA2
                     
                     // Skor hesapla
-                    val score = calculateSecurityScore(wifiInfo, securityLevel)
+                    val score = calculateWifiSecurityScore(wifiInfo, securityLevel)
                     
                     auditResult = WifiAuditResult(
                         ssid = wifiInfo.ssid,
@@ -98,9 +136,9 @@ fun WifiAuditScreen(
                         securityLevel = securityLevel,
                         signalStrength = wifiInfo.signalStrength,
                         overallScore = score,
-                        threats = detectThreats(wifiInfo, securityLevel),
-                        warnings = generateWarnings(wifiInfo, securityLevel),
-                        recommendations = generateRecommendations(securityLevel)
+                        threats = detectWifiThreats(securityLevel),
+                        warnings = generateWifiWarnings(wifiInfo, securityLevel),
+                        recommendations = getWifiRecommendations()
                     )
                 } else {
                     auditResult = null
@@ -109,60 +147,6 @@ fun WifiAuditScreen(
                 android.util.Log.e("WifiAuditScreen", "Error loading WiFi info", e)
             }
         }
-    }
-    
-    // Helper fonksiyonlar
-    fun calculateSecurityScore(wifi: com.clara.security.data.SystemDataProvider.WifiInfo, security: WifiSecurityLevel): Int {
-        var score = 50
-        
-        // Güvenlik seviyesine göre puan
-        score += when (security) {
-            WifiSecurityLevel.WPA3 -> 40
-            WifiSecurityLevel.WPA2 -> 30
-            WifiSecurityLevel.WPA -> 15
-            WifiSecurityLevel.WEP -> -10
-            WifiSecurityLevel.OPEN -> -30
-        }
-        
-        // Sinyal gücüne göre bonus
-        if (wifi.signalStrength > 70) score += 10
-        else if (wifi.signalStrength > 50) score += 5
-        
-        return score.coerceIn(0, 100)
-    }
-    
-    fun detectThreats(wifi: com.clara.security.data.SystemDataProvider.WifiInfo, security: WifiSecurityLevel): List<WifiThreatType> {
-        val threats = mutableListOf<WifiThreatType>()
-        
-        if (security == WifiSecurityLevel.OPEN) {
-            threats.add(WifiThreatType.OPEN_NETWORK)
-        }
-        if (security == WifiSecurityLevel.WEP) {
-            threats.add(WifiThreatType.WEAK_ENCRYPTION)
-        }
-        
-        return threats
-    }
-    
-    fun generateWarnings(wifi: com.clara.security.data.SystemDataProvider.WifiInfo, security: WifiSecurityLevel): List<String> {
-        val warnings = mutableListOf<String>()
-        
-        if (wifi.signalStrength < 40) {
-            warnings.add("Zayıf sinyal - bağlantı kopabilir")
-        }
-        if (security != WifiSecurityLevel.WPA3) {
-            warnings.add("WPA3 desteği için router güncellemesi kontrol edin")
-        }
-        
-        return warnings
-    }
-    
-    fun generateRecommendations(security: WifiSecurityLevel): List<String> {
-        return listOf(
-            "Güçlü ve benzersiz WiFi şifresi kullanın",
-            "Router firmware'ini güncel tutun",
-            "WPS'i devre dışı bırakın"
-        )
     }
     
     Scaffold(
