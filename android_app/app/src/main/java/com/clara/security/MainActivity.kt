@@ -50,6 +50,9 @@ class MainActivity : ComponentActivity() {
         // Bildirim kanallarını oluştur
         NotificationService.createChannels(this)
         
+        // Security sistemlerini başlat
+        initializeSecuritySystems()
+        
         // Bağlantı yöneticisini oluştur
         connection = ClaraConnection(applicationContext)
         
@@ -128,5 +131,23 @@ class MainActivity : ComponentActivity() {
                 Log.e(TAG, "Failed to refresh data", e)
             }
         }
+    }
+    
+    private fun initializeSecuritySystems() {
+        // Security preferences'ı başlat
+        com.clara.security.security.SecurityPreferences.initialize(applicationContext)
+        
+        // Anti-theft manager'ı başlat
+        com.clara.security.security.AntiTheftManager.initialize(applicationContext)
+        
+        // Voice print auth'u başlat
+        com.clara.security.security.VoicePrintAuth.initialize(applicationContext)
+        
+        // Korumayı aktif et (varsayılan: AÇIK)
+        if (com.clara.security.security.SecurityPreferences.isAntiTheftEnabled()) {
+            com.clara.security.security.AntiTheftManager.startProtection()
+        }
+        
+        Log.d(TAG, "Security systems initialized")
     }
 }
