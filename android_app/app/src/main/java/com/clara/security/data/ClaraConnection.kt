@@ -15,10 +15,13 @@ import kotlinx.coroutines.withContext
  * Root komutları, AI analizi ve yerel veritabanını koordine eder.
  * Daemon yoksa fallback modunda çalışır.
  */
-class ClaraConnection(private val context: Context) {
+class ClaraConnection(private val _context: Context) {
     companion object {
         private const val TAG = "ClaraConnection"
     }
+    
+    // Public context getter
+    val context: Context get() = _context
     
     // ═══════════════════════════════════════════════════════════════════════════
     // STATE

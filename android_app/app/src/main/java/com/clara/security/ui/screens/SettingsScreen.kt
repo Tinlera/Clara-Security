@@ -14,12 +14,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.clara.security.data.ClaraConnection
 import com.clara.security.ui.theme.*
+import kotlinx.coroutines.launch
 
 /**
  * Ayarlar Ekranı
  */
 @Composable
 fun SettingsScreen(connection: ClaraConnection) {
+    val scope = rememberCoroutineScope()
+    var showClearDialog by remember { mutableStateOf(false) }
+    var isClearing by remember { mutableStateOf(false) }
+    var isRestarting by remember { mutableStateOf(false) }
+    
     // Ayar değerleri
     var autonomousMode by remember { mutableStateOf(false) }
     var notificationsEnabled by remember { mutableStateOf(true) }
@@ -44,7 +50,10 @@ fun SettingsScreen(connection: ClaraConnection) {
                 title = "Otonom Mod",
                 description = "Tehditlere otomatik müdahale et",
                 checked = autonomousMode,
-                onCheckedChange = { autonomousMode = it }
+                onCheckedChange = { 
+                    autonomousMode = it 
+                    com.clara.security.security.SecurityPreferences.setAiAutoActionEnabled(it)
+                }
             )
         }
         
@@ -106,7 +115,7 @@ fun SettingsScreen(connection: ClaraConnection) {
             SettingsInfo(
                 icon = Icons.Default.Info,
                 title = "Versiyon",
-                value = "0.2.0"
+                value = "1.0.0"
             )
         }
         
@@ -119,10 +128,11 @@ fun SettingsScreen(connection: ClaraConnection) {
         }
         
         item {
+            val hasRoot by connection.hasRoot.collectAsState()
             SettingsInfo(
                 icon = Icons.Default.Code,
-                title = "Daemon Versiyonu",
-                value = "0.2.0-arm64"
+                title = "Root Durumu",
+                value = if (hasRoot) "Aktif ✓" else "Yok ✗"
             )
         }
         
@@ -136,11 +146,11 @@ fun SettingsScreen(connection: ClaraConnection) {
             SettingsButton(
                 icon = Icons.Default.DeleteForever,
                 title = "Tüm Verileri Sil",
-                description = "Log ve karantina dosyalarını temizle",
-                buttonText = "Temizle",
+                description = "Log ve tehdit kayıtlarını temizle",
+                buttonText = if (isClearing) "Siliniyor..." else "Temizle",
                 isDestructive = true,
                 onClick = {
-                    // TODO: Veri temizleme
+                    showClearDialog = true
                 }
             )
         }
@@ -149,14 +159,53 @@ fun SettingsScreen(connection: ClaraConnection) {
             SettingsButton(
                 icon = Icons.Default.RestartAlt,
                 title = "Servisleri Yeniden Başlat",
-                description = "Tüm daemon'ları yeniden başlat",
-                buttonText = "Yeniden Başlat",
+                description = "Koruma sistemini yeniden başlat",
+                buttonText = if (isRestarting) "Yeniden Başlatılıyor..." else "Yeniden Başlat",
                 isDestructive = false,
                 onClick = {
-                    // TODO: Servis yeniden başlatma
+                    scope.launch {
+                        isRestarting = true
+                        // Anti-theft'i yeniden başlat
+                        com.clara.security.security.AntiTheftManager.stopProtection()
+                        kotlinx.coroutines.delay(500)
+                        com.clara.security.security.AntiTheftManager.startProtection()
+                        // Verileri yenile
+                        connection.loadAllData()
+                        isRestarting = false
+                    }
                 }
             )
         }
+    }
+    
+    // Silme onay dialogu
+    if (showClearDialog) {
+        AlertDialog(
+            onDismissRequest = { showClearDialog = false },
+            title = { Text("Verileri Sil?") },
+            text = { Text("Tüm tehdit kayıtları silinecek. Bu işlem geri alınamaz.") },
+            confirmButton = {
+                Button(
+                    onClick = {
+                        scope.launch {
+                            isClearing = true
+                            showClearDialog = false
+                            com.clara.security.data.ThreatDatabase.clearAllThreats(connection.context)
+                            connection.loadAllData()
+                            isClearing = false
+                        }
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = CLARAError)
+                ) {
+                    Text("Sil")
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showClearDialog = false }) {
+                    Text("İptal")
+                }
+            }
+        )
     }
 }
 

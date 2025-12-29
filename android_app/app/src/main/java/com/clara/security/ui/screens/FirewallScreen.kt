@@ -1,5 +1,6 @@
 package com.clara.security.ui.screens
 
+import android.util.Log
 import androidx.compose.animation.*
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -18,7 +19,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.clara.security.data.ClaraConnection
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 /**
  * Firewall kural tipi
@@ -57,48 +58,32 @@ fun FirewallScreen(
     var showSystemApps by remember { mutableStateOf(false) }
     var selectedRule by remember { mutableStateOf<FirewallRule?>(null) }
     
-    // Demo veriler
+    // Gerçek uygulama verileri
+    val scope = rememberCoroutineScope()
+    
     LaunchedEffect(Unit) {
-        delay(500)
-        rules = listOf(
-            FirewallRule(
-                "com.whatsapp", "WhatsApp",
-                FirewallAction.ALLOW, FirewallAction.ALLOW,
-                256_000_000, 128_000_000
-            ),
-            FirewallRule(
-                "com.instagram.android", "Instagram",
-                FirewallAction.ALLOW, FirewallAction.LOG_ONLY,
-                512_000_000, 1_024_000_000
-            ),
-            FirewallRule(
-                "com.facebook.katana", "Facebook",
-                FirewallAction.DENY, FirewallAction.DENY,
-                0, 0
-            ),
-            FirewallRule(
-                "com.tiktok.android", "TikTok",
-                FirewallAction.ALLOW, FirewallAction.DENY,
-                1_500_000_000, 500_000_000
-            ),
-            FirewallRule(
-                "com.google.android.gm", "Gmail",
-                FirewallAction.ALLOW, FirewallAction.ALLOW,
-                50_000_000, 100_000_000
-            ),
-            FirewallRule(
-                "com.android.chrome", "Chrome",
-                FirewallAction.ALLOW, FirewallAction.ALLOW,
-                2_000_000_000, 500_000_000
-            ),
-            FirewallRule(
-                "com.android.systemui", "System UI",
-                FirewallAction.ALLOW, FirewallAction.ALLOW,
-                10_000_000, 5_000_000,
-                isSystemApp = true
-            )
-        )
-        isLoading = false
+        scope.launch {
+            try {
+                val apps = com.clara.security.data.SystemDataProvider.getInstalledApps(
+                    connection.context
+                )
+                rules = apps.map { app ->
+                    FirewallRule(
+                        packageName = app.packageName,
+                        appName = app.appName,
+                        wifiAction = FirewallAction.ALLOW, // Varsayılan izinli
+                        mobileAction = FirewallAction.ALLOW,
+                        bytesSent = app.bytesSent,
+                        bytesReceived = app.bytesReceived,
+                        isSystemApp = app.isSystemApp
+                    )
+                }
+                isLoading = false
+            } catch (e: Exception) {
+                Log.e("FirewallScreen", "Error loading apps", e)
+                isLoading = false
+            }
+        }
     }
     
     Scaffold(
